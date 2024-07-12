@@ -1,76 +1,51 @@
-/** Water Jug
- *
- * This model represents a jug. The jug can be filled, spilled, or poured out to
- * another target jug.
- */
-class WaterJug{
+type Jug = {
   name: string;
-  maxCapacity: number;
+  capacity: number;
   currentVolume: number;
-
-  constructor(name : string, maxCapacity : number){
-    this.name = name;
-    this.maxCapacity = maxCapacity;
-    this.currentVolume = 0;
-  }
-
-  /**fills jug to its maximum capacity*/
-  fill(){
-    this.currentVolume = this.maxCapacity;
-    console.log(`Filled jug ${this.name} to ${this.maxCapacity}`)
-  }
-
-  /**empties jug*/
-  spill(){
-    this.currentVolume = 0;
-    console.log(`Spilled jug ${this.name}`)
-  }
-
-  /**pours water from this jug into target jug*/
-  pour(targetJug : WaterJug ){
-    const pourAmount = Math.min(this.currentVolume, targetJug.maxCapacity - targetJug.currentVolume);
-    this.currentVolume -= pourAmount;
-    targetJug.currentVolume += pourAmount;
-    console.log(`Poured ${pourAmount} from jug ${this.name} to jug ${targetJug.name}`)
-  }
 }
 
+function createWaterJug(name: string, capacity: number) : Jug {
+  return {
+    name,
+    capacity,
+    currentVolume: 0
+  };
+}
 
-/**Water Jug System
- *
- * This model represents a water jug system. There are two water jugs in the
- * system with different capacities. It uses the two jugs to precisly fill jugB to
- * its target capacity.
- */
-class WaterJugSystem{
-  jugA: WaterJug;
-  jugB: WaterJug;
-  targetCapacity: number;
+function fill(jug: Jug) {
+  jug.currentVolume = jug.capacity;
+  console.log(`Filled jug ${jug.name} to ${jug.capacity}`);
+}
 
-  constructor(jugAName : string, jugACapacity : number,jugBName : string, jugBCapacity : number, targetCapacity : number){
-    this.jugA = new WaterJug(jugAName, jugACapacity);
-    this.jugB = new WaterJug(jugBName, jugBCapacity)
-    this.targetCapacity = targetCapacity
-  }
+function spill(jug: Jug) {
+  jug.currentVolume = 0;
+  console.log(`Spilled jug ${jug.name}`);
+}
 
-  /**Performs a series of actions: filling jugA, pouring jugA into jugB, and
-   * spilling from jugB until jugB reaches it's target capacity.
-   *
+function pour(sourceJug : Jug, targetJug: Jug) {
+  const pourAmount = Math.min(
+    sourceJug.currentVolume,
+    targetJug.capacity - targetJug.currentVolume
+  );
+  sourceJug.currentVolume -= pourAmount;
+  targetJug.currentVolume += pourAmount;
+  console.log(`Poured ${pourAmount} from jug ${sourceJug.name} to jug ${targetJug.name}`);
+}
 
-    */
-  reachGoal(){
-    while(this.jugB.currentVolume !== this.targetCapacity){
-      if(this.jugA.currentVolume === 0){
-        this.jugA.fill();
-      } else if(this.jugA.currentVolume > 0 && this.jugB.currentVolume < this.jugB.maxCapacity){
-        this.jugA.pour(this.jugB);
-      } else if(this.jugB.currentVolume === this.jugB.maxCapacity){
-        this.jugB.spill();
-      }
+function reachGoal(sourceJug : Jug, targetJug : Jug, targetCapacity : number) {
+  while (jugB.currentVolume !== targetCapacity) {
+    if (jugA.currentVolume === 0) {
+      fill(jugA);
+    } else if (jugA.currentVolume > 0 && jugB.currentVolume < jugB.capacity) {
+      pour(jugA, jugB);
+    } else if (jugB.currentVolume === jugB.capacity) {
+      spill(jugB);
     }
-    console.log(`Goal reached! Jug ${this.jugB.name} contains ${this.jugB.currentVolume} gallons.`)
   }
+  return `Goal reached! Jug ${jugB.name} contains ${jugB.currentVolume} gallons.`;
 }
 
-const waterJugSystem = new WaterJugSystem('A', 3, 'B', 4, 2);
-waterJugSystem.reachGoal();
+// Example usage:
+const jugA = createWaterJug("A", 3);
+const jugB = createWaterJug("B", 4);
+reachGoal(jugA, jugB, 2);
