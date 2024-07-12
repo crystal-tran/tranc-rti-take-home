@@ -64,9 +64,18 @@ function reachGoal(sourceJug : Jug, targetJug : Jug, targetCapacity : number) : 
     return `Target capacity ${targetCapacity} exceeds jug ${targetJug.name} capacity.`
   }
 
-  //potential infinite loop:
-  //make a check to see if the goal can be reached wih the two Jugs
+  let seenStates : Set<string> = new Set();
+
   while (targetJug.currentVolume !== targetCapacity) {
+    const currentState = `${sourceJug.currentVolume}-${targetJug.currentVolume}`;
+
+    if(seenStates.has(currentState)){
+      return `Target capacity cannot be reached with ${sourceJug.name} and ${targetJug.name}`
+    }
+
+    seenStates.add(currentState);
+
+
     if (sourceJug.currentVolume === 0) {
       fill(sourceJug);
     } else if (sourceJug.currentVolume > 0 && targetJug.currentVolume < targetJug.capacity) {
