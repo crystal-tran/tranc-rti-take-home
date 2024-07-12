@@ -1,4 +1,5 @@
 "'use strict";
+
 /**Creates a water jug object
  *
  * Arguments:
@@ -12,16 +13,22 @@ function createWaterJug(name, capacity) {
         currentVolume: 0
     };
 }
+
+
 /**Fills jug to its maximum capacity*/
 function fill(jug) {
     jug.currentVolume = jug.capacity;
     console.log(`Filled jug ${jug.name} to ${jug.capacity}`);
 }
+
+
 /**Empties jug*/
 function spill(jug) {
     jug.currentVolume = 0;
     console.log(`Spilled jug ${jug.name}`);
 }
+
+
 /**Pours water from source jug into target jug*/
 function pour(sourceJug, targetJug) {
     const pourAmount = Math.min(sourceJug.currentVolume, targetJug.capacity - targetJug.currentVolume);
@@ -29,6 +36,8 @@ function pour(sourceJug, targetJug) {
     targetJug.currentVolume += pourAmount;
     console.log(`Poured ${pourAmount} from jug ${sourceJug.name} to jug ${targetJug.name}`);
 }
+
+
 /**Performs a series of actions to achieve target capacity in target jug.
    *
    * Process:
