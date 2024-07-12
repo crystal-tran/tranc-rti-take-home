@@ -10,7 +10,7 @@ interface Jug {
  *    name: a string name of the water jug
  *    capacity: the maximum capacity the jug can hold
 */
-function createWaterJug(name: string, capacity: number) : Jug {
+function createWaterJug(name: string, capacity: number): Jug {
   return {
     name,
     capacity,
@@ -19,21 +19,21 @@ function createWaterJug(name: string, capacity: number) : Jug {
 }
 
 
-  /**Fills jug to its maximum capacity*/
-function fill(jug: Jug) : void {
+/**Fills jug to its maximum capacity*/
+function fill(jug: Jug): void {
   jug.currentVolume = jug.capacity;
   console.log(`Filled jug ${jug.name} to ${jug.capacity}`);
 }
 
 /**Empties jug*/
-function spill(jug: Jug) : void {
+function spill(jug: Jug): void {
   jug.currentVolume = 0;
   console.log(`Spilled jug ${jug.name}`);
 }
 
 
-  /**Pours water from source jug into target jug*/
-function pour(sourceJug : Jug, targetJug: Jug) : void {
+/**Pours water from source jug into target jug*/
+function pour(sourceJug: Jug, targetJug: Jug): void {
   const pourAmount = Math.min(
     sourceJug.currentVolume,
     targetJug.capacity - targetJug.currentVolume
@@ -59,18 +59,18 @@ function pour(sourceJug : Jug, targetJug: Jug) : void {
    * Returns:
    *   a string when target capacity is achieved.
 */
-function reachGoal(sourceJug : Jug, targetJug : Jug, targetCapacity : number) : string {
-  if(targetCapacity > targetJug.capacity){
-    return `Target capacity ${targetCapacity} exceeds jug ${targetJug.name} capacity.`
+function reachGoal(sourceJug: Jug, targetJug: Jug, targetCapacity: number): string {
+  if (targetCapacity > targetJug.capacity) {
+    return `Target capacity ${targetCapacity} exceeds jug ${targetJug.name} capacity.`;
   }
 
-  let seenStates : Set<string> = new Set();
+  let seenStates: Set<string> = new Set();
 
   while (targetJug.currentVolume !== targetCapacity) {
     const currentState = `${sourceJug.currentVolume}-${targetJug.currentVolume}`;
 
-    if(seenStates.has(currentState)){
-      return `Target capacity cannot be reached with ${sourceJug.name} and ${targetJug.name}`
+    if (seenStates.has(currentState)) {
+      return `Target capacity cannot be reached with ${sourceJug.name} and ${targetJug.name}`;
     }
 
     seenStates.add(currentState);

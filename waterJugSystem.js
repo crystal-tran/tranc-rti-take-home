@@ -81,4 +81,4 @@ const jugA = createWaterJug("A", 3);
 const jugB = createWaterJug("B", 4);
 reachGoal(jugA, jugB, 2);
 
-module.exports = { createWaterJug, pour, fill, spill, reachGoal }
+module.exports = { createWaterJug, pour, fill, spill, reachGoal };
