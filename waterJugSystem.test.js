@@ -29,4 +29,14 @@ describe("reach goal", function () {
     const msg = reachGoal(jugA, jugB, targetCapacity);
     expect(msg).toEqual(`Target capacity cannot be reached with ${jugA.name} and ${jugB.name}`);
   });
+
+  test("return when goal is reached", function () {
+    const jugA = createWaterJug('A', 7);
+    const jugB = createWaterJug('B', 4);
+    const targetCapacity = 3;
+
+    const msg = reachGoal(jugA, jugB, targetCapacity);
+    expect(msg).toEqual(`Goal reached! Jug ${jugB.name} contains ${jugB.currentVolume} gallons.`);
+  });
+
 });
