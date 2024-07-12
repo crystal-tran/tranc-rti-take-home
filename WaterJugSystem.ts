@@ -49,7 +49,11 @@ function pour(sourceJug : Jug, targetJug: Jug) : void {
    *
    * Returns a string when target capacity is achieved.
 */
-function reachGoal(sourceJug : Jug, targetJug : Jug, targetCapacity : number) {
+function reachGoal(sourceJug : Jug, targetJug : Jug, targetCapacity : number) : string {
+  if(targetCapacity > targetJug.capacity){
+    return `Target capacity ${targetCapacity} exceeds jug ${targetJug.name} capacity.`
+  }
+
   while (targetJug.currentVolume !== targetCapacity) {
     if (sourceJug.currentVolume === 0) {
       fill(sourceJug);
