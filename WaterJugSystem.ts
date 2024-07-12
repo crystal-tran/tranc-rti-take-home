@@ -4,7 +4,12 @@ interface Jug {
   currentVolume: number;
 }
 
-/**Creates a water jug */
+/**Creates a water jug object
+ *
+ * Arguments:
+ *    name: a string name of the water jug
+ *    capacity: the maximum capacity the jug can hold
+*/
 function createWaterJug(name: string, capacity: number) : Jug {
   return {
     name,
@@ -47,13 +52,20 @@ function pour(sourceJug : Jug, targetJug: Jug) : void {
    *    pour from source jug to target jug
    * 3) If target jug is full, spill target jug
    *
-   * Returns a string when target capacity is achieved.
+   *
+   * Arguments:
+   *    sourceJug & targetJug - Objects representing a jug. ie. { name, capacity, currentVolume }
+   *    target capacity: The number of gallons needed to reach goal
+   * Returns:
+   *   a string when target capacity is achieved.
 */
 function reachGoal(sourceJug : Jug, targetJug : Jug, targetCapacity : number) : string {
   if(targetCapacity > targetJug.capacity){
     return `Target capacity ${targetCapacity} exceeds jug ${targetJug.name} capacity.`
   }
 
+  //potential infinite loop:
+  //make a check to see if the goal can be reached wih the two Jugs
   while (targetJug.currentVolume !== targetCapacity) {
     if (sourceJug.currentVolume === 0) {
       fill(sourceJug);
