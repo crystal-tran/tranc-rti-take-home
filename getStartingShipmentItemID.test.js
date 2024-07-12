@@ -8,8 +8,13 @@ describe('getStartingShipmentID function', function () {
     expect(startID).toEqual(10);
   });
 
-  test('shipment array with a large enough gap', function () {
+  test('shipment array with a large enough gap in the middle', function () {
     const startID = getStartingShipmentItemID([1, 19], 6);
+    expect(startID).toEqual(10);
+  });
+
+  test('shipment array with a large enough gap in the beginning', function () {
+    const startID = getStartingShipmentItemID([50, 51, 52], 30);
     expect(startID).toEqual(10);
   });
 
