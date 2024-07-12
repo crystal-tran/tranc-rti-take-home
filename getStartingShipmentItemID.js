@@ -19,12 +19,11 @@
  *
  */
 function getStartingShipmentItemID(allShipmentItemIDs, numSamplesInBatch) {
-    // Check for empty array
-    if (allShipmentItemIDs.length === 0)
+    // Check for empty array and for large gaps in the beginning of the array
+    if (allShipmentItemIDs.length === 0 || allShipmentItemIDs[0] > numSamplesInBatch + 9) {
         return 10;
-    //Find lowest multiple of 10 that's greater than the last ID
-    const lastID = allShipmentItemIDs[allShipmentItemIDs.length - 1];
-    let startID = Math.ceil((lastID + 1) / 10) * 10;
+    }
+
     //iterate through shipment array to find gaps where the new batch could fit
     //if so, calculate the potential startID that is a multiple of 10 after the current ID
     //if it fits in within the gap, return the potential startID
@@ -38,7 +37,10 @@ function getStartingShipmentItemID(allShipmentItemIDs, numSamplesInBatch) {
             }
         }
     }
+    //if no gaps are found in the beginning or middle, return the next minimum starting ID
+    const lastID = allShipmentItemIDs[allShipmentItemIDs.length - 1];
+    let startID = Math.ceil((lastID + 1) / 10) * 10;
     return startID;
 }
 
-module.exports = { getStartingShipmentItemID }
+module.exports = { getStartingShipmentItemID };
