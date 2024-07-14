@@ -38,7 +38,7 @@ describe('getStartingShipmentID function', function () {
     expect(startID).toEqual(40);
   });
 
-  test('shipment array with sufficient gaps but  ID already a multiple of 10', function () {
+  test('shipment array with sufficient gaps but ID already a multiple of 10', function () {
     const startID = getStartingShipmentItemID([2, 10, 20, 30], 5);
     expect(startID).toEqual(40);
   });
