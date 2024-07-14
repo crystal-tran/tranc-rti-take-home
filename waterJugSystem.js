@@ -1,3 +1,6 @@
+'use strict';
+
+
 /**Creates a water jug object
  *
  * Arguments:

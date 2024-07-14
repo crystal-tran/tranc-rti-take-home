@@ -49,5 +49,4 @@ describe("reach goal", function () {
     expect(msg).toEqual(`Goal reached! Jug ${jugB.name} contains ${jugB.currVolume} gallons.`);
   });
 
-
 });
