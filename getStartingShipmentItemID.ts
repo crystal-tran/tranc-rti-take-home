@@ -33,7 +33,7 @@ function getStartingShipmentItemID(allShipmentItemIDs: number[], numSamplesInBat
 
     if (nextID - currID > numSamplesInBatch) {
       let potentialStartID = Math.ceil((currID + 1) / 10) * 10;
-      if (potentialStartID + numSamplesInBatch - 1 < nextID) {
+      if (potentialStartID + numSamplesInBatch <= nextID) {
         return potentialStartID;
       }
     }

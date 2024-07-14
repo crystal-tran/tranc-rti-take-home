@@ -1,3 +1,6 @@
+'use strict';
+
+
 /** Returns the starting starting shipment item ID to use for a batch of shipment items.
  *
  * Constraints:
@@ -32,7 +35,7 @@ function getStartingShipmentItemID(allShipmentItemIDs, numSamplesInBatch) {
         let nextID = allShipmentItemIDs[i + 1];
         if (nextID - currID > numSamplesInBatch) {
             let potentialStartID = Math.ceil((currID + 1) / 10) * 10;
-            if (potentialStartID + numSamplesInBatch - 1 < nextID) {
+            if (potentialStartID + numSamplesInBatch  <= nextID) {
                 return potentialStartID;
             }
         }
@@ -42,3 +45,5 @@ function getStartingShipmentItemID(allShipmentItemIDs, numSamplesInBatch) {
     const startID = Math.ceil((lastID + 1) / 10) * 10;
     return startID;
 }
+
+module.exports = { getStartingShipmentItemID };
