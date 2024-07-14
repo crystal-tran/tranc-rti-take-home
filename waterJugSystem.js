@@ -1,43 +1,32 @@
-"'use strict";
-
 /**Creates a water jug object
  *
  * Arguments:
  *    name: a string name of the water jug
  *    capacity: the maximum capacity the jug can hold
+ *
+ * Returns: an object like {'A', 3, 0}
 */
 function createWaterJug(name, capacity) {
     return {
         name,
         capacity,
-        currentVolume: 0
+        currVolume: 0
     };
 }
-
-
 /**Fills jug to its maximum capacity*/
 function fill(jug) {
-    jug.currentVolume = jug.capacity;
-    console.log(`Filled jug ${jug.name} to ${jug.capacity}`);
+    jug.currVolume = jug.capacity;
 }
-
-
 /**Empties jug*/
 function spill(jug) {
-    jug.currentVolume = 0;
-    console.log(`Spilled jug ${jug.name}`);
+    jug.currVolume = 0;
 }
-
-
 /**Pours water from source jug into target jug*/
 function pour(sourceJug, targetJug) {
-    const pourAmount = Math.min(sourceJug.currentVolume, targetJug.capacity - targetJug.currentVolume);
-    sourceJug.currentVolume -= pourAmount;
-    targetJug.currentVolume += pourAmount;
-    console.log(`Poured ${pourAmount} from jug ${sourceJug.name} to jug ${targetJug.name}`);
+    const pourAmount = Math.min(sourceJug.currVolume, targetJug.capacity - targetJug.currVolume);
+    sourceJug.currVolume -= pourAmount;
+    targetJug.currVolume += pourAmount;
 }
-
-
 /**Performs a series of actions to achieve target capacity in target jug.
    *
    * Process:
@@ -48,37 +37,49 @@ function pour(sourceJug, targetJug) {
    *
    *
    * Arguments:
-   *    sourceJug & targetJug - Objects representing a jug. ie. { name, capacity, currentVolume }
-   *    target capacity: The number of gallons needed to reach goal
+   *    sourceJug & targetJug - Objects representing a jug. ie. { name, capacity, currVolume }
+   *    target capacity: The number of gallons needed to reach goal in targetJug
+   *
    * Returns:
-   *   a string when target capacity is achieved.
+   *   a string stating if the capacity was reached
 */
 function reachGoal(sourceJug, targetJug, targetCapacity) {
     if (targetCapacity > targetJug.capacity) {
-        return `Target capacity ${targetCapacity} exceeds jug ${targetJug.name} capacity.`;
+        return `Target capacity exceeds jug ${targetJug.name} capacity.`;
     }
+    //Tracks unique volume states
     let seenStates = new Set();
-    while (targetJug.currentVolume !== targetCapacity) {
-        const currentState = `${sourceJug.currentVolume}-${targetJug.currentVolume}`;
-        if (seenStates.has(currentState)) {
-            return `Target capacity cannot be reached with ${sourceJug.name} and ${targetJug.name}`;
-        }
-        seenStates.add(currentState);
-        if (sourceJug.currentVolume === 0) {
+    while (targetJug.currVolume !== targetCapacity) {
+        if (sourceJug.currVolume === 0) {
             fill(sourceJug);
+            console.log(`
+            Fill ${sourceJug.name},
+            State: ${sourceJug.currVolume}-${targetJug.currVolume}`);
         }
-        else if (sourceJug.currentVolume > 0 && targetJug.currentVolume < targetJug.capacity) {
+        else if (sourceJug.currVolume > 0 && targetJug.currVolume < targetJug.capacity) {
             pour(sourceJug, targetJug);
+            console.log(`
+            Pour ${sourceJug.name} to ${targetJug.name},
+            State: ${sourceJug.currVolume}-${targetJug.currVolume}`);
         }
-        else if (targetJug.currentVolume === targetJug.capacity) {
+        else if (targetJug.currVolume === targetJug.capacity) {
             spill(targetJug);
+            console.log(`
+            Empty ${targetJug.name},
+            State: ${sourceJug.currVolume}-${targetJug.currVolume}`);
         }
+        const currState = `${sourceJug.currVolume}:${targetJug.currVolume}`;
+        //Checks if the current state has been seen, if so, then target capacity cannot be reached
+        if (seenStates.has(currState)) {
+            return 'Target capacity cannot be reached';
+        }
+        seenStates.add(currState);
     }
-    return `Goal reached! Jug ${targetJug.name} contains ${targetJug.currentVolume} gallons.`;
+    return `Goal reached! Jug ${targetJug.name} contains ${targetJug.currVolume} gallons.`;
 }
 // Example usage:
 const jugA = createWaterJug("A", 3);
 const jugB = createWaterJug("B", 4);
 reachGoal(jugA, jugB, 2);
 
-module.exports = { createWaterJug, pour, fill, spill, reachGoal };
+module.exports = { createWaterJug, reachGoal }
